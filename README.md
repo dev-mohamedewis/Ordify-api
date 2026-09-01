@@ -118,6 +118,66 @@ This version is intentionally limited to a backend foundation for the order work
 - save order flow
 - merchant dashboard landing-point
 
+## API keys
+
+API keys let a merchant authenticate requests to Ordify without exposing a user session or admin credentials. Each API key belongs to a single merchant and must be managed by an admin.
+
+### What API keys are
+
+API keys are used for merchant-owned integrations and service-to-service access. They are generated as secure values in the form `ord_live_<secret>` and hashed before they are stored in MongoDB.
+
+> Important: the raw API key is shown only once when it is created. It cannot be retrieved later.
+
+### Admin creates an API key
+
+```bash
+curl -X POST http://localhost:3000/api/v1/api-keys \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <admin-jwt>" \
+  -d '{
+    "merchantId": "<merchant-id>",
+    "name": "Primary Webhook Key",
+    "expiresAt": "2027-01-01T00:00:00.000Z"
+  }'
+```
+
+Example successful response:
+
+```json
+{
+  "success": true,
+  "message": "API key created successfully",
+  "data": {
+    "id": "<api-key-id>",
+    "apiKey": "ord_live_8f7c2a...",
+    "keyPrefix": "ord_live_8f7c2a",
+    "name": "Primary Webhook Key",
+    "expiresAt": "2027-01-01T00:00:00.000Z",
+    "isActive": true,
+    "createdAt": "2026-09-01T00:00:00.000Z"
+  }
+}
+```
+
+### Merchant usage
+
+A merchant sends the API key with the X-API-Key header:
+
+```bash
+curl -X GET http://localhost:3000/api/v1/api-keys/validate \
+  -H "X-API-Key: ord_live_xxxxxxxxx"
+```
+
+The server validates the hashed key, checks whether the key is active and not expired, confirms the merchant is active, and then attaches the merchant identity to the request.
+
+### Security notes
+
+- The raw API key is never stored in MongoDB.
+- The hash is stored instead.
+- Revoked or expired keys are rejected with a generic 401 message.
+- The raw API key is never returned by list or detail endpoints.
+- Only admin users can create, list, revoke, or delete merchant API keys.
+
 ## Future roadmap
 
 Integrations such as WhatsApp, Instagram, Facebook Messenger, and Telegram are planned for future versions. This MVP does not include those channels yet.
