@@ -19,7 +19,7 @@ router.get('/health', (req, res) => {
 
 router.use('/auth', authRoutes);
 router.use('/admins', adminRoutes);
-router.use('/merchants', merchantRoutes);
+router.use('/admin', merchantRoutes);
 router.use('/api-keys', apiKeyRoutes);
 router.use('/products', productRoutes);
 router.use('/conversations', conversationRoutes);
