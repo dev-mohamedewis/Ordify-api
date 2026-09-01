@@ -1,0 +1,8 @@
+warning: in the working copy of 'package.json', LF will be replaced by CRLF the next time Git touches it
+ package.json                        |  2 [32m+[m[31m-[m
+ src/middlewares/auth.middleware.js  |  5 [32m++[m[31m--[m
+ src/modules/auth/auth.controller.js |  4 [32m+++[m[31m-[m
+ src/modules/auth/auth.routes.js     | 19 [32m++++++++++++++[m[31m-[m
+ src/modules/auth/auth.service.js    | 47 [32m+++++++++++++++++++++++++++++++++++[m[31m--[m
+ src/modules/auth/auth.validation.js |  6 [32m++[m[31m---[m
+ 6 files changed, 73 insertions(+), 10 deletions(-)

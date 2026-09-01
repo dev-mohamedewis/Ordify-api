@@ -13,14 +13,15 @@ async function authMiddleware(req, res, next) {
     }
 
     const decoded = verifyToken(token);
+    const adminId = decoded.adminId || decoded.id;
 
-    if (!decoded || !decoded.id) {
+    if (!decoded || !adminId) {
       const error = new Error('Invalid token payload.');
       error.statusCode = 401;
       throw error;
     }
 
-    const admin = await Admin.findById(decoded.id).lean();
+    const admin = await Admin.findById(adminId).lean();
 
     if (!admin) {
       const error = new Error('Admin account not found.');
