@@ -1,0 +1,44 @@
+{
+  "name": "ordify-api",
+  "version": "1.0.0",
+  "description": "Ordify API backend for converting customer chat messages into structured orders.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-mohamedewis/Ordify-api.git"
+  },
+  "keywords": [
+    "ordify",
+    "ecommerce",
+    "chat-commerce",
+    "express",
+    "mongodb"
+  ],
+  "author": "Ordify",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/dev-mohamedewis/Ordify-api/issues"
+  },
+  "homepage": "https://github.com/dev-mohamedewis/Ordify-api#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^8.1.0",
+    "joi": "^17.13.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.6.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
