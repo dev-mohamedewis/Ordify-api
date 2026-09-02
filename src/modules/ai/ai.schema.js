@@ -1,15 +1,26 @@
 const Joi = require('joi');
 
-const orderExtractionSchema = Joi.object({
-  customerName: Joi.string().allow('').optional(),
+const aiResponseSchema = Joi.object({
+  intent: Joi.string()
+    .valid('create_order', 'ask_product', 'ask_price', 'ask_availability', 'provide_customer_info', 'greeting', 'other')
+    .required(),
+  customer: Joi.object({
+    name: Joi.alternatives().try(Joi.string().allow(''), null).required(),
+    phone: Joi.alternatives().try(Joi.string().allow(''), null).required()
+  }).required().unknown(false),
   items: Joi.array().items(
     Joi.object({
-      name: Joi.string().required(),
-      quantity: Joi.number().min(1).required(),
-      unitPrice: Joi.number().min(0).required()
-    })
+      productName: Joi.alternatives().try(Joi.string().allow(''), null).required(),
+      quantity: Joi.number().integer().min(1).required(),
+      variant: Joi.object({
+        color: Joi.alternatives().try(Joi.string().allow(''), null).required(),
+        size: Joi.alternatives().try(Joi.string().allow(''), null).required(),
+        other: Joi.alternatives().try(Joi.string().allow(''), null).required()
+      }).required().unknown(false)
+    }).required().unknown(false)
   ).required(),
-  totalAmount: Joi.number().min(0).required()
-});
+  notes: Joi.alternatives().try(Joi.string().allow(''), null).required(),
+  confidence: Joi.number().min(0).max(1).required()
+}).required().unknown(false);
 
-module.exports = { orderExtractionSchema };
+module.exports = { aiResponseSchema };
